@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}NexuPago{% endblock %}</title>
+</head>
+<body>
+
+{% if user.is_authenticated %}
+<nav>
+  <a href="{% url 'home' %}">Inicio</a>
+
+  {% if user.rol == 'Administrador' %}
+    <a href="{% url 'registrar_usuario' %}">Gestión de Usuarios</a>
+    <a href="{% url 'crear_servicio' %}">Crear Servicios</a>
+    <a href="{% url 'pagar_servicio' %}">Pagar Servicio</a>
+    <a href="{% url 'resumen_pagos' %}">Mostrar Lista</a>
+  {% elif user.rol == 'Empleado' %}
+    <a href="{% url 'pagar_servicio' %}">Pagar Servicio</a>
+    <a href="{% url 'resumen_pagos' %}">Mostrar Lista</a>
+  {% endif %}
+  <a href="{% url 'logout' %}">Cerrar sesión</a>
+</nav>
+{% endif %}
+
+<main>
+  {% block content %}
+  <!-- Aquí se mostrará el contenido de otras plantillas -->
+  {% endblock %}
+</main>
+
+</body>
+</html>
