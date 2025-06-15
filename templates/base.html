@@ -7,20 +7,20 @@
 <body>
 
 {% if user.is_authenticated %}
-<nav>
-  <a href="{% url 'home' %}">Inicio</a>
-
-  {% if user.rol == 'Administrador' %}
-    <a href="{% url 'registrar_usuario' %}">Gestión de Usuarios</a>
-    <a href="{% url 'crear_servicio' %}">Crear Servicios</a>
-    <a href="{% url 'pagar_servicio' %}">Pagar Servicio</a>
-    <a href="{% url 'resumen_pagos' %}">Mostrar Lista</a>
-  {% elif user.rol == 'Empleado' %}
-    <a href="{% url 'pagar_servicio' %}">Pagar Servicio</a>
-    <a href="{% url 'resumen_pagos' %}">Mostrar Lista</a>
-  {% endif %}
-  <a href="{% url 'logout' %}">Cerrar sesión</a>
-</nav>
+  <h2>Bienvenido, {{ user.nombre }}</h2>
+    {% if user.rol == "ADMIN" %}
+        <a href="{% url 'registrar_usuario' %}">Gestión de Usuarios</a>
+        <a href="{% url 'crear_servicio' %}">Crear Servicios</a>
+        <a href="{% url 'pagar_servicio' %}">Pagar Servicio</a>
+        <a href="{% url 'resumen_pagos' %}">Mostrar Lista</a>
+    {% elif user.rol == "EMPLEADO" %}
+        <a href="{% url 'crear_servicio' %}">Crear Servicios</a>
+        <a href="{% url 'pagar_servicio' %}">Pagar Servicio</a>
+        <a href="{% url 'resumen_pagos' %}">Mostrar Lista</a>
+    {% endif %}
+    <a href="{% url 'logout' %}">Cerrar sesión</a>
+{% else %}
+    <a href="{% url 'login' %}">Iniciar sesión</a>
 {% endif %}
 
 <main>

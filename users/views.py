@@ -1,40 +1,56 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth.decorators import login_required, user_passes_test
-from .forms import RegistroUsuarioForm, LoginForm
-from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.decorators import user_passes_test, login_required
+from .forms import LoginForm, RegistrarUsuarioForm
 from django.contrib import messages
+from users.utils import es_admin
 
-def es_admin(user):
-    return user.is_authenticated and user.rol == 'Administrador'
-
-@login_required
-@user_passes_test(es_admin)
-def registrar_usuario(request):
-    if request.method == 'POST':
-        form = RegistroUsuarioForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return render(request, 'users/registrar_usuario.html', {'form': RegistroUsuarioForm(), 'mensaje': 'Usuario registrado con éxito'})
-    else:
-        form = RegistroUsuarioForm()
-    return render(request, 'users/registrar_usuario.html', {'form': form})
-# inicio de sesion 
 def login_usuario(request):
     if request.method == 'POST':
-        form = LoginForm(request, data=request.POST)
+        form = LoginForm(request.POST)
         if form.is_valid():
-            usuario = form.get_user()
-            login(request, usuario)
-            print(f"[DEBUG] Usuario autenticado: {usuario.username}, Rol: {usuario.rol}")  # <-- agrega esto temporalmente
-            return redirect('home')
-        else:
-            messages.error(request, "Correo o contraseña incorrectos")
+            email = form.cleaned_data['email']
+            password = form.cleaned_data['password']
+            user = authenticate(request, email=email, password=password)
+            if user:
+                login(request, user)
+                if user.rol == 'ADMIN':
+                    return redirect('admin_home')
+                else:
+                    return redirect('empleado_home')
+            else:
+                messages.error(request, "Correo o contraseña incorrectos")
     else:
         form = LoginForm()
     return render(request, 'users/login.html', {'form': form})
 
-@login_required
+def logout_usuario(request):
+    logout(request)
+    return redirect('login')  
+
+@user_passes_test(es_admin)
+def registrar_usuario(request):
+    if request.method == 'POST':
+        form = RegistrarUsuarioForm(request.POST)
+        if form.is_valid():
+            usuario = form.save(commit=False)
+            usuario.set_password(form.cleaned_data['password'])  # Encriptar contraseña
+            usuario.save()
+            messages.success(request, 'Usuario registrado exitosamente.')
+            return redirect('registrar_usuario')
+    else:
+        form = RegistrarUsuarioForm()
+    return render(request, 'users/registrar_usuario.html', {'form': form})
+
+def home(request):
+    # contenido o lógica pendiente de definir
+    pass
+
 def logout_usuario(request):
     logout(request)
     return redirect('login')
+
+@login_required
+@user_passes_test(es_admin)
+def gestion_usuarios(request):
+    return render(request, 'users/registrar_usuario.html')

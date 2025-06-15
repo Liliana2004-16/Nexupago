@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Pagar Servicio</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Pagar servicio</button>
+  </form>
+  {% if messages %}
+    {% for msg in messages %}
+        <p style="color: red;">{{ msg }}</p>
+    {% endfor %}
+{% endif %}
+{% endblock %}

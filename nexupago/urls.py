@@ -19,9 +19,9 @@ from django.urls import path, include
 from django.shortcuts import redirect
 
 urlpatterns = [
+    path('', lambda request: redirect('login')),
     path('admin/', admin.site.urls),
     path('users/', include('users.urls')),  # tu app de usuarios
-    path('', lambda request: redirect('login')),
-    path('service/', include('service.urls')), 
-   
+    path('service/', include('service.urls')),
+  
 ]

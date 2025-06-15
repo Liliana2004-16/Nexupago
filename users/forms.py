@@ -1,19 +1,13 @@
 from django import forms
-from .models import Usuario
-from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.forms import AuthenticationForm
+from users.models import Usuario
 
-class RegistroUsuarioForm(UserCreationForm):
+class LoginForm(forms.Form):
+    email = forms.EmailField(label='Correo')
+    password = forms.CharField(widget=forms.PasswordInput, label='Contraseña')
+
+class RegistrarUsuarioForm(forms.ModelForm):
+    password = forms.CharField(widget=forms.PasswordInput, label='Contraseña')
+
     class Meta:
         model = Usuario
-        fields = ['username', 'identificacion', 'cargo', 'correo', 'rol', 'password1', 'password2']
-
-    def clean_correo(self):
-        correo = self.cleaned_data.get('correo')
-        if Usuario.objects.filter(correo=correo).exists():
-            raise forms.ValidationError("Este correo ya está registrado.")
-        return correo
-class LoginForm(AuthenticationForm):
-    class Meta:
-        model = Usuario
-        fields = ['username', 'password']
+        fields = ['nombre', 'identificacion', 'cargo', 'email', 'rol', 'password']
