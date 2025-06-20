@@ -30,11 +30,6 @@ class Servicio(models.Model):
         ('Admon', 'Admon'),
     ]
 
-    PAGADOR = [
-        ('Empleado', 'Empleado'),
-        ('Empresa', 'Empresa'),
-    ]
-
     CENTROS_COSTO = [
         ('Centro1', 'Centro de Costo 1'),
         ('Centro2', 'Centro de Costo 2'),
@@ -48,7 +43,6 @@ class Servicio(models.Model):
     empresa = models.CharField(max_length=100, choices=EMPRESAS)
     nombre_servicio = models.CharField(max_length=100)
     referencia_pago = models.CharField(max_length=100)
-    quien_paga = models.CharField(max_length=100, choices=PAGADOR)
     centro_costo = models.CharField(max_length=100, choices=CENTROS_COSTO, default='Centro1')
     estado = models.CharField(default='Pendiente de Pago', max_length=50)
 
@@ -75,6 +69,7 @@ class Pago(models.Model):
     mes = models.CharField(max_length=15, choices=MESES)
     medio_pago = models.CharField(max_length=20, choices=MEDIOS_PAGO)
     fecha_pago = models.DateTimeField(auto_now_add=True)
+    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
 
     def __str__(self):
         return f"{self.servicio} - {self.mes} - {self.valor}"

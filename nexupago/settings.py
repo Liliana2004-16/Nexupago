@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'users',
     'service',
     'templates',
+    'static',
     
 ]
 AUTH_USER_MODEL = 'users.Usuario'
@@ -66,6 +67,7 @@ ROOT_URLCONF = 'nexupago.urls'
 LOGIN_URL = '/users/login/'
 LOGIN_REDIRECT_URL = '/'  # Opcional, puedes cambiarlo según tu lógica
 LOGOUT_REDIRECT_URL = '/users/login/'  # Para que al cerrar sesión vuelva al login
+
 
 TEMPLATES = [
     {
@@ -130,7 +132,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field

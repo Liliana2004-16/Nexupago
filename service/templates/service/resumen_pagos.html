@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Resumen de Pagos Mensuales</h2>
+<p>Seleccione un mes:</p>
+<div style="display: flex; flex-wrap: wrap; gap: 10px;">
+    {% for m in meses %}
+        <form method="get" action="{% url 'resumen_pagos_mes' m %}">
+            <button type="submit">{{ m }}</button>
+        </form>
+    {% endfor %}
+</div>
+{% endblock %}

@@ -2,31 +2,39 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="/static/css/style.css">
     <title>{% block title %}NexuPago{% endblock %}</title>
 </head>
 <body>
 
-{% if user.is_authenticated %}
-  <h2>Bienvenido, {{ user.nombre }}</h2>
-    {% if user.rol == "ADMIN" %}
-        <a href="{% url 'registrar_usuario' %}">Gestión de Usuarios</a>
-        <a href="{% url 'crear_servicio' %}">Crear Servicios</a>
-        <a href="{% url 'pagar_servicio' %}">Pagar Servicio</a>
-        <a href="{% url 'resumen_pagos' %}">Mostrar Lista</a>
-    {% elif user.rol == "EMPLEADO" %}
-        <a href="{% url 'crear_servicio' %}">Crear Servicios</a>
-        <a href="{% url 'pagar_servicio' %}">Pagar Servicio</a>
-        <a href="{% url 'resumen_pagos' %}">Mostrar Lista</a>
-    {% endif %}
-    <a href="{% url 'logout' %}">Cerrar sesión</a>
-{% else %}
-    <a href="{% url 'login' %}">Iniciar sesión</a>
+<main>
+  {% if user.is_authenticated %}
+      {% if user.rol == "ADMIN" %}
+          <a href="{% url 'registrar_usuario' %}">Gestión de Usuarios</a>
+          <a href="{% url 'crear_servicio' %}">Crear Servicios</a>
+          
+          <a href="{% url 'pagar_servicio' %}">Pagar Servicio</a>
+          <a href="{% url 'resumen_pagos' %}">Mostrar Lista</a>
+      {% elif user.rol == "EMPLEADO" %}
+          <a href="{% url 'crear_servicio' %}">Crear Servicios</a>
+          <a href="{% url 'pagar_servicio' %}">Pagar Servicio</a>
+          <a href="{% url 'resumen_pagos' %}">Mostrar Lista</a>
+      {% endif %}
+      <a href="{% url 'logout' %}">Cerrar sesión</a>
+  {% endif %}
+
+  {% if messages %}
+  <ul class="messages">
+    {% for message in messages %}
+      <li class="{{ message.tags }}">{{ message }}</li>
+    {% endfor %}
+  </ul>
 {% endif %}
 
-<main>
   {% block content %}
   <!-- Aquí se mostrará el contenido de otras plantillas -->
   {% endblock %}
+
 </main>
 
 </body>

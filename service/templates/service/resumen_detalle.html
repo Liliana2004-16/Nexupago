@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Resumen de Pagos - {{ mes }}</h2>
+<a href="{% url 'resumen_pagos' %}">← Volver a selección de mes</a>
+<table borde="1">
+    <thead>
+        <tr>
+            <th>Mes</th>
+            <th>Empresa</th>
+            <th>Nombre del Servicio</th>
+            <th>Quién Pagó</th>
+            <th>Centro de Costo</th>
+            <th>Valor</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for pago in pagos %}
+            <tr>
+                <td>{{ pago.mes }}</td>
+                <td>{{ pago.servicio.empresa }}</td>
+                <td>{{ pago.servicio.nombre_servicio }}</td>
+                <td>{{ pago.usuario }}</td>
+                <td>{{ pago.servicio.centro_costo }}</td>
+                <td>${{ pago.valor }}</td>
+            </tr>
+        {% empty %}
+            <tr><td colspan="6">No hay pagos registrados para {{ mes }}.</td></tr>
+        {% endfor %}
+    </tbody>
+        <tfoot>
+        <tr>
+            <td colspan="5" style="text-align: right;"><strong>Total del mes:</strong></td>
+            <td><strong>${{ total_mes }}</strong></td>
+        </tr>
+    </tfoot>
+</table>
+{% endblock %}

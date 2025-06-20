@@ -1,14 +1,10 @@
-{% extends "base.html" %}
+{% extends 'base_public.html' %}
+
 {% block content %}
 <h2>Iniciar Sesión</h2>
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Entrar</button>
+<form method="POST">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">Entrar</button>
 </form>
-{% if messages %}
-    {% for msg in messages %}
-        <p style="color: red;">{{ msg }}</p>
-    {% endfor %}
-{% endif %}
 {% endblock %}
