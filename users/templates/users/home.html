@@ -1,0 +1,57 @@
+<!-- templates/users/home.html -->
+{% load static %} <!-- MUY IMPORTANTE: Cargar el tag static al inicio del archivo -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bienvenido a NexuPago</title>
+    <!-- Tailwind CSS CDN para estilos rápidos y responsivos -->
+    <script src="https://cdn.tailwindcss.com" integrity="sha384-uWXq1s1sbvn6zCV5vFGUapQ+Tz7zGpUxl2zRzDwKHe72p6uwhKxkU6dR9PK1lLq6" crossorigin="anonymous"></script>
+
+    <style>
+        /* Fuente Inter para una apariencia moderna */
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Puedes añadir estilos personalizados directamente aquí si no son muchos */
+    </style>
+    
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}"> <!-- CORRECTO -->
+</head>
+<body class="bg-gradient-to-r from-purple-500 to-indigo-600 min-h-screen flex items-center justify-center p-4">
+    <div class="bg-white rounded-xl shadow-2xl p-8 md:p-12 max-w-lg w-full text-center transform hover:scale-105 transition-all duration-300 ease-in-out">
+        <h1 class="text-4xl md:text-5xl font-extrabold text-gray-800 mb-6 leading-tight">
+            Bienvenido a <span class="text-indigo-600">NexuPago</span>
+        </h1>
+
+        <picture>
+            <source srcset="{% static 'img/Inicio.png' %}" type="image/png">
+            <img 
+            src="{% static 'img/Inicio.png' %}" 
+            alt="Bienvenida a NexuPago" 
+            class="w-full h-auto rounded-lg shadow-lg mb-8 border-4 border-indigo-200"
+            />
+        </picture>
+        
+
+
+        <p class="text-lg text-gray-600 mb-8 leading-relaxed">
+            Gestiona tus servicios y pagos de forma rápida y segura.
+        </p>
+        
+        <!-- Botón de Ingresar -->
+        <a href="{% url 'login' %}" 
+           class="inline-block bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-8 rounded-full 
+                  shadow-lg transform transition-all duration-300 ease-in-out hover:-translate-y-1 
+                  focus:outline-none focus:ring-4 focus:ring-indigo-300 focus:ring-opacity-75 
+                  text-xl tracking-wide uppercase">
+            Ingresar
+        </a>
+    </div>
+
+
+    <script src="{% static '/static/js' %}"></script>
+</body>
+</html>

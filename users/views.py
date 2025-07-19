@@ -4,7 +4,12 @@ from django.contrib.auth.decorators import user_passes_test, login_required
 from .forms import LoginForm, RegistrarUsuarioForm
 from django.contrib import messages
 from users.utils import es_admin
+from django.views.decorators.csrf import csrf_protect
+from django.views.decorators.http import require_http_methods
 
+@csrf_protect
+@require_http_methods(["GET"])
+@require_http_methods(["POST"])
 def login_usuario(request):
     if request.method == 'POST':
         form = LoginForm(request.POST)
@@ -24,11 +29,18 @@ def login_usuario(request):
         form = LoginForm()
     return render(request, 'users/login.html', {'form': form})
 
+@csrf_protect
+@require_http_methods(["POST"])
+@login_required
 def logout_usuario(request):
     logout(request)
-    return redirect('login')  
+    return redirect('login')
 
+@csrf_protect
+@require_http_methods(["GET"])
+@require_http_methods(["POST"])
 @user_passes_test(es_admin)
+@login_required
 def registrar_usuario(request):
     if request.method == 'POST':
         form = RegistrarUsuarioForm(request.POST)
@@ -42,14 +54,13 @@ def registrar_usuario(request):
         form = RegistrarUsuarioForm()
     return render(request, 'users/registrar_usuario.html', {'form': form})
 
+@csrf_protect
+@require_http_methods(["GET"])
 def home(request):
-    # contenido o lógica pendiente de definir
-    pass
+    return render(request, 'users/home.html')
 
-def logout_usuario(request):
-    logout(request)
-    return redirect('login')
-
+@csrf_protect
+@require_http_methods(["GET"])
 @login_required
 @user_passes_test(es_admin)
 def gestion_usuarios(request):
